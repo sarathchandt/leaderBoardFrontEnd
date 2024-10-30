@@ -1,0 +1,21 @@
+export const itemArray = [
+    { rank: 14, name: 'Leo', score: 120000 },
+    { rank: 15, name: 'Mia', score: 110000 },
+    { rank: 16, name: 'Nina', score: 95000 },
+    { rank: 17, name: 'Oscar', score: 85000 },
+    { rank: 12, name: 'Jack', score: 80000 },
+    { rank: 9, name: 'Grace', score: 70000 },
+    { rank: 19, name: 'Quinn', score: 65000 },
+    { rank: 7, name: 'Eva', score: 60000 },
+    { rank: 11, name: 'Alan', score: 40000 },
+    { rank: 5, name: 'Ben', score: 40000 },
+    { rank: 10, name: 'Zoya', score: 40000 },
+    { rank: 1, name: 'Sarath', score: 34909 },
+    { rank: 4, name: 'Bob', score: 30000 },
+    { rank: 2, name: 'John', score: 25000 },
+    { rank: 6, name: 'David', score: 15000 },
+    { rank: 3, name: 'Alice', score: 45000 },
+    { rank: 18, name: 'Paul', score: 3000 },
+    { rank: 8, name: 'Sarath', score: 20000 },
+    { rank: 13, name: 'Kate', score: 9000 }
+];

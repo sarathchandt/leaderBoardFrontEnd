@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./pages/PrivateRoutes";
 import SignUp from "./pages/SignUp";
 import AdminLogin from "./pages/AdminLogin";
+import Home from "./pages/Home";
 
 const App = () => {
   return (
@@ -11,7 +12,7 @@ const App = () => {
       <Routes  >
         <Route element={<PrivateRoutes/>} >
 
-        <Route path="/" element={<>Hard</>} />
+        <Route path="/" element={<Home/>} />
         
 
         </Route>
