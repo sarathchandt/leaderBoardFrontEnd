@@ -51,7 +51,7 @@ const Home = () => {
   const reArnange =  async(newScore) => {
       try {
         await axiosInstance.post('/updateUserScore',{score:newScore})
-        fetchLeaderboardData()
+        await fetchLeaderboardData()
       } catch (error) {
         setErrorMessage(
           "Couldn't update the value"
