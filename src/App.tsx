@@ -5,6 +5,9 @@ import PrivateRoutes from "./pages/PrivateRoutes";
 import SignUp from "./pages/SignUp";
 import AdminLogin from "./pages/AdminLogin";
 import Home from "./pages/Home";
+import EnterOtp from "./pages/EnterOtp";
+import AdminPrivateRoute from "./pages/AdminPrivateRoute";
+import AdminHome from "./pages/AdminHome";
 
 const App = () => {
   return (
@@ -17,7 +20,13 @@ const App = () => {
 
         </Route>
       <Route path="signup" element={<SignUp/>} />
-      <Route path="adminLogin" element={<AdminLogin/>} />
+      <Route path="enterOtp" element={<EnterOtp/>} />
+
+
+      <Route element={<AdminPrivateRoute/>} >
+
+      <Route path="admin" element={<AdminHome/>} />
+      </Route>
       </Routes>
     </BrowserRouter>
   );

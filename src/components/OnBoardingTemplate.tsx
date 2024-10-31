@@ -1,5 +1,6 @@
 import React, {  ReactNode, useEffect, useState } from 'react'
 import GradientRound from './GradientRound';
+import GradientButton from './GradientButton';
 
 type OnBoardingTemplateProps = {
     children:ReactNode
@@ -29,7 +30,8 @@ const OnBoardingTemplate = ({children,firstRoundGradientStyle,mainTitle,secondRo
       const dynamicHeight = (height * 70) / 100 > 600 ?(height * 70) / 100 :600
     
       return (
-        <div className="w-screen h-screen ">
+        <div className="w-screen h-screen  relative">
+
           <div className="h-full w-full grid md:grid-cols-2 grid-cols-1">
             <div className=" h-full hidden md:block relative "></div>
             <div className=" h-full  relative z-10 ">

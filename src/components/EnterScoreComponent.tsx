@@ -4,20 +4,27 @@ import { numberTest } from "../lib/util";
 
 type EnterScoreComponentProps = {
   onSubmit: (score) => void;
+  title?:string;
+  type?:string
 };
 
-const EnterScoreComponent = ({ onSubmit }: EnterScoreComponentProps) => {
+const EnterScoreComponent = ({ onSubmit,title = 'Enter New Score',type="number" }: EnterScoreComponentProps) => {
   const [score, setScore] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState("");
 
   const submitScore = (e) => {
     e.preventDefault();
-    const isValid = numberTest(score);
-    if (isValid) {
-      onSubmit(score);
-      setScore('')
-    } else {
-      setErrorMessage("Please provide a valid number");
+    if(score.length > 0 && type == 'text'){
+      onSubmit(score)
+    }else{
+
+      const isValid = numberTest(score);
+      if (isValid) {
+        onSubmit(score);
+        setScore('')
+      } else {
+        setErrorMessage("Please provide a valid number");
+      }
     }
   };
 
@@ -26,9 +33,9 @@ const EnterScoreComponent = ({ onSubmit }: EnterScoreComponentProps) => {
       <div className="w-full flex flex-row  gap-4 mb-6">
         <div className="flex-1">
           <input
-            type="number"
+            type={type}
             className="w-full p-2 bg-inherit border-[1px]  border-whiteV1 rounded-[10px] text-white"
-            placeholder="Enter New Score"
+            placeholder={title}
             value={score}
             onChange={(e) => {
               setScore(e.target.value);

@@ -1,29 +1,47 @@
-import React, { useState } from 'react'
-import OnBoardingTemplate from '../components/OnBoardingTemplate';
-import GradientButton from '../components/GradientButton';
-import { useNavigate } from 'react-router-dom';
-import { validateAdmin } from '../lib/util';
+import React, { useState } from "react";
+import OnBoardingTemplate from "../components/OnBoardingTemplate";
+import GradientButton from "../components/GradientButton";
+import { useNavigate } from "react-router-dom";
+import { validateAdmin } from "../lib/util";
+import axiosInstance from "../lib/client";
+import { setAccessToken, setRefreshToken } from "../lib/tokenStorage";
+import { useStore } from "../store/store";
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate()
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const setIsAdminLoggedInd = useStore((state) => state.setIsAdminLoggedIn);
 
-    const [userName,setUserName] = useState('')
-    const [password,setPassword] = useState('')
-    const [errorMessage,setErrorMessage] = useState('')
+  const submitFunction = async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+    const isUSerValid = validateAdmin(userName);
+    const isPassWordValid = validateAdmin(password);
 
-    
-    const submitFunction = (e) =>{
-        e.preventDefault()
-   const isUSerValid =      validateAdmin(userName)
-   const isPassWordValid = validateAdmin(password)
+    if (isPassWordValid && isUSerValid) {
+      const login = await axiosInstance.post("/admin/login", {
+        password,
+        userName,
+      });
+      if (login.data.isLogin) {
+        setAccessToken(login.data.isLogin.accessToken);
+        setRefreshToken(login.data.isLogin.refreshToken);
+        setIsAdminLoggedInd(true);
+      } else {
+        setErrorMessage("Something went wrong");
+      }
 
-        if(isPassWordValid && isUSerValid){
-
-        }else{
-            setErrorMessage('Please make sure about the credentials')
-        }
+      setIsSubmitting(false);
+    } else {
+      setIsSubmitting(false);
+      setErrorMessage("Please make sure about the credentials");
     }
+    setIsSubmitting(false);
+  };
   return (
     <OnBoardingTemplate
       mainTitle="Welcome Sir"
@@ -36,7 +54,9 @@ const AdminLogin = () => {
             Admin
           </h3>
           <p className="text-white ">There are new things..hurry up!</p>
-          {errorMessage.length != 0 && <p className="text-red-600 text-sm md:text-lg ">{errorMessage}</p> }
+          {errorMessage.length != 0 && (
+            <p className="text-red-600 text-sm md:text-lg ">{errorMessage}</p>
+          )}
 
           <form action="">
             <input
@@ -44,8 +64,8 @@ const AdminLogin = () => {
               className="w-full mt-6 bg-inherit border-[0.5px] rounded-[10px] py-2 px-4 text-white"
               placeholder="User Name"
               value={userName}
-              onChange={(e)=>{
-                setUserName(e.target.value)
+              onChange={(e) => {
+                setUserName(e.target.value);
               }}
             />
             <input
@@ -53,8 +73,8 @@ const AdminLogin = () => {
               className="w-full mt-6 bg-inherit border-[0.5px] rounded-[10px] py-2 px-4 text-white"
               placeholder="Password"
               value={password}
-              onChange={(e)=>{
-                setPassword(e.target.value)
+              onChange={(e) => {
+                setPassword(e.target.value);
               }}
             />
             <GradientButton
@@ -63,14 +83,12 @@ const AdminLogin = () => {
               additionalStyles="w-full bg-gradient-to-r from-[#E948C5] via-[#CD407B] to-[#75042D] p-2 text-white font-bold  rounded-[10px] my-6"
             />
           </form>
-        
-       
         </div>
         <div className="absolute bottom-0 w-full md:p-10 p-4  ">
           <p
             className="text-white text-center my-auto cursor-pointer"
             onClick={() => {
-              navigate('/')
+              navigate("/");
             }}
           >
             Have you lost..?
@@ -84,7 +102,7 @@ const AdminLogin = () => {
         </div>
       </div>
     </OnBoardingTemplate>
-  )
-}
+  );
+};
 
-export default AdminLogin
+export default AdminLogin;

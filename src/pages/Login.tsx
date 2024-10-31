@@ -5,34 +5,53 @@ import OnBoardingTemplate from "../components/OnBoardingTemplate";
 import GradientButton from "../components/GradientButton";
 import { useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../lib/util";
-
-
+import axiosInstance from "../lib/client";
+import { useStore } from "../store/store";
+import { setAccessToken, setRefreshToken } from "../lib/tokenStorage";
 
 const Login = () => {
+  const setLogin = useStore((state) => state.setIsUserLoggedIn);
 
   const navigate = useNavigate();
 
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState("")
-  const [isSubmitting,setIsSubmitting] = useState(false)
-  const [errorMessage,setErrorMessage] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const onSubmitFunction=(e)=>{
-    e.preventDefault()
-    if(isSubmitting) return
-    
-    const isValidEmail =  validateEmail(email)
-    const  isValidPassWord = validatePassword(password)
+  const onSubmitFunction = async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
 
-    if(isValidEmail && isValidPassWord){
-      setIsSubmitting(true)
-    }else{
-      setErrorMessage('The Email & Password must be in Proper form. And make sure everything filled without any additional space')
+    const isValidEmail = validateEmail(email);
+    const isValidPassWord = validatePassword(password);
+
+    if (isValidEmail && isValidPassWord) {
+      setIsSubmitting(true);
+
+      try {
+        const login = await axiosInstance.post("/login", {
+          email,
+          password,
+        });
+        if (login.data.isLogined) {
+          setAccessToken(login.data.accessToken);
+          setRefreshToken(login.data.refreshToken);
+          setLogin(true);
+        } else {
+          setErrorMessage("plese check the credencials");
+        }
+
+        setIsSubmitting(false);
+      } catch (error) {
+        setIsSubmitting(false);
+      }
+    } else {
+      setErrorMessage(
+        "The Email & Password must be in Proper form. And make sure everything filled without any additional space"
+      );
     }
-    
-
-  }
-  
+  };
 
   return (
     <OnBoardingTemplate
@@ -46,15 +65,17 @@ const Login = () => {
             Login
           </h3>
           <p className="text-white ">Glad you are back!</p>
-          {errorMessage.length != 0 && <p className="text-red-600 ">{errorMessage}</p> }
-          <form >
+          {errorMessage.length != 0 && (
+            <p className="text-red-600 ">{errorMessage}</p>
+          )}
+          <form>
             <input
               type="email"
               className="w-full mt-6 bg-inherit border-[0.5px] rounded-[10px] py-2 px-4 text-white"
               placeholder="Email"
               value={email}
-              onChange={(e)=>{
-                setEmail(e.target.value)
+              onChange={(e) => {
+                setEmail(e.target.value);
               }}
             />
             <input
@@ -62,8 +83,8 @@ const Login = () => {
               className="w-full mt-6 bg-inherit border-[0.5px] rounded-[10px] py-2 px-4 text-white"
               placeholder="Password"
               value={password}
-              onChange={(e)=>{
-                setPassword(e.target.value)
+              onChange={(e) => {
+                setPassword(e.target.value);
               }}
             />
             <GradientButton
@@ -80,7 +101,7 @@ const Login = () => {
           <GradientButton
             title="Admin Panel"
             onClick={(e) => {
-              navigate('/adminLogin')
+              navigate("/admin");
             }}
             additionalStyles="w-full bg-gradient-to-r from-[#628EFF] via-[#8740CD] to-[#580475] p-2 text-white font-bold  rounded-[10px] my-6"
           />
@@ -89,7 +110,7 @@ const Login = () => {
           <p
             className="text-white text-center my-auto cursor-pointer"
             onClick={() => {
-              navigate('/signup')
+              navigate("/signup");
             }}
           >
             Don’t have an account ? Signup

@@ -3,6 +3,7 @@ import OnBoardingTemplate from "../components/OnBoardingTemplate";
 import GradientButton from "../components/GradientButton";
 import { useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword } from "../lib/util";
+import axiosInstance from "../lib/client";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -11,10 +12,9 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassWord] = useState("");
   const [rePassword, setRePassword] = useState("");
-  const [isCalledSignup,setIsCalledSignup] = useState(false)
   const [errorMessage,setErrorMessage] = useState('')
 
-  const submitFunction = (e) => {
+  const submitFunction = async(e) => {
     e.preventDefault();
 
     const isValidEmail = validateEmail(email);
@@ -23,10 +23,30 @@ const SignUp = () => {
     const isValidName = name.length !== 0;
 
     if (isValidEmail && isValidName && isValidPassword && isValidRePassword) {
+      
 
-        setIsCalledSignup(true)
-    }else{
+        const sentOtp = await axiosInstance.post('/sentOtp',{
+          email
+        })
         
+
+        console.log(sentOtp);
+        if(sentOtp.data.isOtpSented){
+          navigate('/enterOtp',{
+            state:{
+              email,password,name
+            }
+          })
+        }else{
+          if(sentOtp.data.userExist){
+            setErrorMessage('Email already registered')
+
+          }
+        }
+        
+    }else{
+      
+
         setErrorMessage('The input values must be in Proper form. And make sure everything filled without any additional space')
     }
   };
