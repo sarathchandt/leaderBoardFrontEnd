@@ -1,8 +1,19 @@
-# React + Vite
+# Leaderboard System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A leaderboard system that allows users to enter their scores and analyze their position on the leaderboard. This project is built with React and Vite for a fast and efficient development experience.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Technologies Used
+- **Frontend**: React, Vite
+- **Backend**: Express js
+- **Database**: mongoDB
+
+## Frontend Code
+
+### Installation Instructions
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sarathchandt/leaderBoardFrontEnd.git
+   npm install
+   npm run dev
