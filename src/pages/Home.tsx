@@ -9,7 +9,7 @@ import GradientButton from "../components/GradientButton";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const [leaderBoard, setLeaderBoard] = useState(itemArray);
+  const [leaderBoard, setLeaderBoard] = useState<any>([]);
   const [currentPosition, setCurrentPosition] = useState<number>(0);
   const [rank,setRank] = useState(0)
   const [errorMessage, setErrorMessage] = useState("");
@@ -18,6 +18,9 @@ const Home = () => {
 
 
   const user = useStore((state) => state.userData);
+
+  console.log(leaderBoard);
+  
   
 
   const fetchLeaderboardData = async () => {

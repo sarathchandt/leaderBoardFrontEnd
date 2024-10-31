@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken } from "./tokenStorage";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'https://leaderboardbackend-f70q.onrender.com',
     timeout: 10000,
 });
 
@@ -69,7 +69,7 @@ axiosInstance.interceptors.response.use(
                 const refreshToken = getRefreshToken(); // Get the refresh token from storage
                 axiosInstance.defaults.headers['Authorization']  = `Bearer ${refreshToken}`
 
-                const response = await axios.get('http://localhost:3000/newAccessToken', {
+                const response = await axios.get('https://leaderboardbackend-f70q.onrender.com/newAccessToken', {
                     headers: {
                         'Authorization': `Bearer ${refreshToken}`, // Set the Authorization header
                     },
