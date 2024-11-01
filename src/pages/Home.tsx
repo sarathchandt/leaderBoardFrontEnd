@@ -62,7 +62,7 @@ const Home = () => {
 
   return (
     <OnBoardingTemplate
-      mainTitle={rank  + " "+leaderBoard[currentPosition]?.name}
+      mainTitle={leaderBoard[currentPosition]?.name  ?(rank  + " "+leaderBoard[currentPosition]?.name):""}
       firstRoundGradientStyle="absolute md:top-[10%] top-[15%]   left-[10%] md:left-0  rotate-90  bg-gradient-to-r from-indigo-500 to-purple-990 "
       secondRoundGradientStyle="absolute bottom-[10%]  right-[10%]  rotate-[40deg]  bg-gradient-to-r from-indigo-900 to-purple-990 "
     >
