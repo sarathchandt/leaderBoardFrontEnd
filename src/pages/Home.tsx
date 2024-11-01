@@ -93,7 +93,7 @@ const Home = () => {
                   className={i == currentPosition ? "bg-white  text-black" : ""}
                 >
                   <td className="border border-dashed border-whiteV1 text-center p-4">
-                    { user?.email== item?.email?rank : i+1}
+                    { leaderBoard[currentPosition]?.email== item?.email?rank : i+1}
                   </td>
                   <td className="border border-dashed border-whiteV1 text-center p-4">
                     {item?.name}
